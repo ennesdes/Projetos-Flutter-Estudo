@@ -1,6 +1,6 @@
 # Aplicativos feitos para estudo
 
-Aplicações feitas para praticar conteúdos de curso, aulas e testes.
+Aplicações feitas para praticar conteúdos de cursos, aulas e testes.
 
 ## 📱 Aplicativos desenvolvidos para Android
 
@@ -15,7 +15,7 @@ Aplicações feitas para praticar conteúdos de curso, aulas e testes.
 ## 🛠️ Construído com
 
 - Flutter
-= Dart
+- Dart
 - Firebase
 - SQLite
 - GetX e Provider
