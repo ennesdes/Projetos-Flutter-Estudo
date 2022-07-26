@@ -1,0 +1,6 @@
+{
+    "editor.codeActionsOnSave": {"source.organizeImports": true},
+    "diffEditor.wordWrap": "on",
+    "editor.wordWrap": "on"
+    
+}

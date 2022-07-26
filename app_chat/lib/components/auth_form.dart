@@ -1,4 +1,7 @@
-import 'package:app_chat/models/auth_form_data.dart';
+import 'dart:io';
+
+import 'package:app_chat/components/user_image_picker.dart';
+import 'package:app_chat/core/models/auth_form_data.dart';
 import 'package:flutter/material.dart';
 
 class AuthForm extends StatefulWidget {
@@ -17,9 +20,26 @@ class _AuthFormState extends State<AuthForm> {
   final _formKey = GlobalKey<FormState>();
   final _formData = AuthFormData();
 
+  void _handleImagePick(File image) {
+    _formData.image = image;
+  }
+
+  void _showError(String msg) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(msg),
+        backgroundColor: Theme.of(context).errorColor,
+      ),
+    );
+  }
+
   void _submit() {
     final isValid = _formKey.currentState?.validate() ?? false;
     if (!isValid) return;
+
+    if (_formData.image == null && _formData.isSignup) {
+      return _showError('Imagem não selecionada');
+    }
 
     widget.onSubmit(_formData);
   }
@@ -35,11 +55,13 @@ class _AuthFormState extends State<AuthForm> {
           child: Column(
             children: [
               if (_formData.isSignup)
+                UserImagePicker(onImagePick: _handleImagePick),
+              if (_formData.isSignup)
                 TextFormField(
-                  key: ValueKey('name'),
+                  key: const ValueKey('name'),
                   initialValue: _formData.name,
                   onChanged: (name) => _formData.name = name,
-                  decoration: InputDecoration(labelText: 'Nome'),
+                  decoration: const InputDecoration(labelText: 'Nome'),
                   validator: (_name) {
                     final name = _name ?? '';
                     if (name.trim().length < 5) {
@@ -49,10 +71,10 @@ class _AuthFormState extends State<AuthForm> {
                   },
                 ),
               TextFormField(
-                key: ValueKey('email'),
+                key: const ValueKey('email'),
                 initialValue: _formData.email,
                 onChanged: (email) => _formData.email = email,
-                decoration: InputDecoration(labelText: 'E-mail'),
+                decoration: const InputDecoration(labelText: 'E-mail'),
                 validator: (_email) {
                   final email = _email ?? '';
                   if (!email.contains('@')) {
@@ -62,11 +84,11 @@ class _AuthFormState extends State<AuthForm> {
                 },
               ),
               TextFormField(
-                key: ValueKey('password'),
+                key: const ValueKey('password'),
                 initialValue: _formData.password,
                 onChanged: (password) => _formData.password = password,
                 obscureText: true,
-                decoration: InputDecoration(labelText: 'Senha'),
+                decoration: const InputDecoration(labelText: 'Senha'),
                 validator: (_password) {
                   final password = _password ?? '';
                   if (password.length < 6) {
@@ -75,11 +97,18 @@ class _AuthFormState extends State<AuthForm> {
                   return null;
                 },
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               ElevatedButton(
                 onPressed: _submit,
                 child: Text(
                   _formData.isLogin ? 'Entrar' : 'Cadastrar',
+                ),
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  onPrimary: Theme.of(context).colorScheme.onPrimary,
+                  primary: Theme.of(context).colorScheme.primary,
                 ),
               ),
               TextButton(
