@@ -1,6 +1,8 @@
 {
     "editor.codeActionsOnSave": {"source.organizeImports": true},
     "diffEditor.wordWrap": "on",
-    "editor.wordWrap": "on"
-    
+    "editor.wordWrap": "on",
+    "dart.flutterSdkPath": "C:\\Users\\Douglas\\fvm\\versions\\3.0.5",
+    "java.configuration.updateBuildConfiguration": "interactive"
+
 }
